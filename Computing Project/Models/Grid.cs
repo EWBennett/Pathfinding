@@ -8,6 +8,7 @@ namespace Computing_Project
 {
 	public class Grid
 	{
+		public bool Ed { get; set; }
 		public bool Started { get; set; }
 		public List<Node> ListOfNodes { get; set; }
 		public DrawHelper Drawer { get; set; }
@@ -15,6 +16,7 @@ namespace Computing_Project
 
 		public Grid(int width, int height, System.Windows.Forms.CheckBox diagonal, System.Windows.Forms.Timer timer)
 		{
+			this.Ed = true;
 			ListOfNodes = new List<Node>();
 			Started = false;
 			Diagonal = diagonal;
