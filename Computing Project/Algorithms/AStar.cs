@@ -9,66 +9,66 @@ namespace Computing_Project
 	public class AStar
 	{
 		private Grid _grid { get; set; }
-		private int _gValue { get; set; }
 
 		public AStar(Grid grid)
 		{
-			//Create a new grid and reset start and end node. Reset g value
 			_grid = grid;
-			_gValue = 0;            
-        }
 
-		public void StartAlgorithm()
-		{
-            var path = new Stack<Node>();
-            var start = _grid.GetStartNode();
-			var end = _grid.GetEndNode();
-            path.Push(start);
-			ActivateNeighbors(start);
-
-			//Main loop; goes through every active node
-			while (_grid.GetAllActive().Count() > 0)
+			//Each node is set to be no state, other than walls. Start node has a distance of 0 while all others have an initial distance of 'infinity'
+			foreach (var node in _grid.ListOfNodes)
 			{
-				//Loops through all active nodes to find the node with the lowest F value.
-				var node = _grid.GetAllActive().Aggregate((closest, next) 
-					=> (closest == null || FindFScore(next, end) < FindFScore(closest, end) ? next : closest));
-
-                path.Push(node);
-				//If the end is found the loop is broken out of
-				if(node == _grid.GetEndNode()) break;
-				//Otherwise examined node is set to be inactive
-				node.State = NodeState.Inactive;
-				//Next node's neighbors are activated
-				ActivateNeighbors(node);
-				_gValue++;
-			}
-            //insert drawing            
-            path.Reverse();
-            _grid.Drawer.DrawGridPath(path);
-            return;
-        }
-
-		//Takes list of adjacent nodes and sets them to be active
-		public void ActivateNeighbors(Node current)
-		{
-			foreach (var neighbor in _grid.GetActiveNeighbors(current))
-			{
-				neighbor.State = NodeState.Active;
+				if (node.State == NodeState.Wall) continue;
+				node.Distance = node == grid.StartNode ? 0 : int.MaxValue;
+				node.State = NodeState.None;
 			}
 		}
 
-		//Function to calculate the F value of a node (distance to end node (H) + distance travelled (G))
-		public int FindFScore(Node current, Node end)
+		public Tuple<Stack<Node>, Stack<Node>> FindShortestPath()
 		{
-			return (end.X - current.X) + (end.Y - current.Y) + _gValue;
+			var prev = new Dictionary<Guid, Node>();
+			var path = new Stack<Node>();
+			_grid.StartNode.State = NodeState.Active;
+			//Loops through every active node
+			while (_grid.GetAllActive().Any())
+			{
+				//Currently examined node is the node with the lowest f score. F score is the distance to the end added to the distance travelled so far
+				var current = _grid.GetAllActive().OrderBy(x => FindFScore(x)).FirstOrDefault();
+				current.State = NodeState.Inactive;
+
+				if (current == _grid.EndNode)
+				{
+					while (prev.ContainsKey(current.Id))
+					{
+						path.Push(current);
+						current = prev[current.Id];
+					}
+					break;
+				}
+
+				//As neighbors are discovered they are set to be active and their distance is assigned to a
+				//more accurate value. If a shorter route to a node is found the distance is changed
+				foreach (var neighbor in _grid.GetActiveNeighbors(current))
+				{
+					neighbor.State = NodeState.Active;
+					var alt = current.Distance + neighbor.TravelCost;
+					if (alt < neighbor.Distance)
+					{
+						neighbor.Distance = alt;
+						prev[neighbor.Id] = current;
+					}
+				}
+
+				if (current.Distance == int.MaxValue) break;
+			}
+
+			var used = new Stack<Node>(prev.Select(x => x.Value).Reverse());
+			return new Tuple<Stack<Node>, Stack<Node>>(path, used);
 		}
-
-        //Returns distance from a node to the end
-        public int FindDistance(Node node)
-        {
-            return (_grid.GetEndNode().X - node.X) + (_grid.GetEndNode().Y - node.Y);
-        }
-
-    }
+		//Function that returns the F Score of a node. This value is distance to the end
+		//using the Manhattan heuristic added to the distance travelled so far
+		private int FindFScore(Node node)
+		{
+			return node.Distance + (Math.Abs(node.X - _grid.EndNode.X) + Math.Abs(node.Y - _grid.EndNode.Y));
+		}
+	}
 }
-

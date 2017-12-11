@@ -14,8 +14,6 @@ namespace Computing_Project
         public int Distance;
         public int TravelCost = 1;
 		public NodeState State { get; set; }
-        public bool IsStart { get; set; }
-        public bool IsEnd { get; set; }
         public System.Windows.Forms.Panel FormBox { get; set; }
     }
 }

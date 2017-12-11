@@ -40,7 +40,6 @@
             this.panel1_2 = new System.Windows.Forms.Panel();
             this.AStarButton = new System.Windows.Forms.Button();
             this.DijkstraButton = new System.Windows.Forms.Button();
-            this.DrawButton = new System.Windows.Forms.Button();
             this.BestFirstButton = new System.Windows.Forms.Button();
             this.BreadthFirstButton = new System.Windows.Forms.Button();
             this.DrawTimer = new System.Windows.Forms.Timer(this.components);
@@ -140,6 +139,7 @@
             this.ClearPathButton = new System.Windows.Forms.Button();
             this.SelectStartButton = new System.Windows.Forms.CheckBox();
             this.SelectEndButton = new System.Windows.Forms.CheckBox();
+            this.NoPathLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // panel1_1
@@ -228,9 +228,10 @@
             // 
             // AStarButton
             // 
-            this.AStarButton.Location = new System.Drawing.Point(707, 133);
+            this.AStarButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.AStarButton.Location = new System.Drawing.Point(707, 102);
             this.AStarButton.Name = "AStarButton";
-            this.AStarButton.Size = new System.Drawing.Size(75, 23);
+            this.AStarButton.Size = new System.Drawing.Size(76, 36);
             this.AStarButton.TabIndex = 2;
             this.AStarButton.Text = "A* Search";
             this.AStarButton.UseVisualStyleBackColor = true;
@@ -238,41 +239,34 @@
             // 
             // DijkstraButton
             // 
-            this.DijkstraButton.Location = new System.Drawing.Point(707, 162);
+            this.DijkstraButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.DijkstraButton.Location = new System.Drawing.Point(707, 144);
             this.DijkstraButton.Name = "DijkstraButton";
-            this.DijkstraButton.Size = new System.Drawing.Size(75, 23);
+            this.DijkstraButton.Size = new System.Drawing.Size(76, 36);
             this.DijkstraButton.TabIndex = 3;
-            this.DijkstraButton.Text = "Dijkstra\'s Search";
+            this.DijkstraButton.Text = "Dijkstra\'s\r\nSearch";
             this.DijkstraButton.UseVisualStyleBackColor = true;
             this.DijkstraButton.Click += new System.EventHandler(this.DijkstraButton_Click);
             // 
-            // DrawButton
-            // 
-            this.DrawButton.Location = new System.Drawing.Point(707, 350);
-            this.DrawButton.Name = "DrawButton";
-            this.DrawButton.Size = new System.Drawing.Size(75, 23);
-            this.DrawButton.TabIndex = 4;
-            this.DrawButton.Text = "Show Path";
-            this.DrawButton.UseVisualStyleBackColor = true;
-            this.DrawButton.Click += new System.EventHandler(this.DrawButton_Click);
-            // 
             // BestFirstButton
             // 
-            this.BestFirstButton.Location = new System.Drawing.Point(707, 191);
+            this.BestFirstButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BestFirstButton.Location = new System.Drawing.Point(707, 186);
             this.BestFirstButton.Name = "BestFirstButton";
-            this.BestFirstButton.Size = new System.Drawing.Size(75, 23);
+            this.BestFirstButton.Size = new System.Drawing.Size(76, 36);
             this.BestFirstButton.TabIndex = 5;
-            this.BestFirstButton.Text = "Best First Search";
+            this.BestFirstButton.Text = "Best First\r\nSearch";
             this.BestFirstButton.UseVisualStyleBackColor = true;
             this.BestFirstButton.Click += new System.EventHandler(this.BestFirstButton_Click);
             // 
             // BreadthFirstButton
             // 
-            this.BreadthFirstButton.Location = new System.Drawing.Point(707, 220);
+            this.BreadthFirstButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BreadthFirstButton.Location = new System.Drawing.Point(707, 228);
             this.BreadthFirstButton.Name = "BreadthFirstButton";
-            this.BreadthFirstButton.Size = new System.Drawing.Size(75, 23);
+            this.BreadthFirstButton.Size = new System.Drawing.Size(76, 36);
             this.BreadthFirstButton.TabIndex = 6;
-            this.BreadthFirstButton.Text = "Breadth First Search";
+            this.BreadthFirstButton.Text = "Breadth First\r\nSearch";
             this.BreadthFirstButton.UseVisualStyleBackColor = true;
             this.BreadthFirstButton.Click += new System.EventHandler(this.BreadthFirstButton_Click);
             // 
@@ -1104,19 +1098,24 @@
             // 
             // AllowDiagonalBox
             // 
+            this.AllowDiagonalBox.Appearance = System.Windows.Forms.Appearance.Button;
             this.AllowDiagonalBox.AutoSize = true;
-            this.AllowDiagonalBox.Location = new System.Drawing.Point(659, 471);
+            this.AllowDiagonalBox.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.AllowDiagonalBox.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightCyan;
+            this.AllowDiagonalBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.AllowDiagonalBox.Location = new System.Drawing.Point(698, 473);
             this.AllowDiagonalBox.Name = "AllowDiagonalBox";
-            this.AllowDiagonalBox.Size = new System.Drawing.Size(146, 17);
+            this.AllowDiagonalBox.Size = new System.Drawing.Size(85, 36);
             this.AllowDiagonalBox.TabIndex = 95;
-            this.AllowDiagonalBox.Text = "Allow diagonal movement";
-            this.AllowDiagonalBox.UseVisualStyleBackColor = true;
+            this.AllowDiagonalBox.Text = "Allow diagonal\r\nmovement";
+            this.AllowDiagonalBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.AllowDiagonalBox.UseVisualStyleBackColor = false;
             // 
             // ResetGridButton
             // 
-            this.ResetGridButton.Location = new System.Drawing.Point(707, 321);
+            this.ResetGridButton.Location = new System.Drawing.Point(707, 323);
             this.ResetGridButton.Name = "ResetGridButton";
-            this.ResetGridButton.Size = new System.Drawing.Size(75, 23);
+            this.ResetGridButton.Size = new System.Drawing.Size(76, 25);
             this.ResetGridButton.TabIndex = 96;
             this.ResetGridButton.Text = "Reset";
             this.ResetGridButton.UseVisualStyleBackColor = true;
@@ -1126,7 +1125,7 @@
             // 
             this.ClearPathButton.Location = new System.Drawing.Point(707, 292);
             this.ClearPathButton.Name = "ClearPathButton";
-            this.ClearPathButton.Size = new System.Drawing.Size(75, 23);
+            this.ClearPathButton.Size = new System.Drawing.Size(76, 25);
             this.ClearPathButton.TabIndex = 97;
             this.ClearPathButton.Text = "Clear Path";
             this.ClearPathButton.UseVisualStyleBackColor = true;
@@ -1135,25 +1134,42 @@
             // SelectStartButton
             // 
             this.SelectStartButton.Appearance = System.Windows.Forms.Appearance.Button;
-            this.SelectStartButton.AutoSize = true;
-            this.SelectStartButton.Location = new System.Drawing.Point(710, 413);
+            this.SelectStartButton.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.SelectStartButton.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightCyan;
+            this.SelectStartButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.SelectStartButton.Location = new System.Drawing.Point(707, 411);
             this.SelectStartButton.Name = "SelectStartButton";
-            this.SelectStartButton.Size = new System.Drawing.Size(72, 23);
+            this.SelectStartButton.Size = new System.Drawing.Size(76, 25);
             this.SelectStartButton.TabIndex = 98;
             this.SelectStartButton.Text = "Select Start";
-            this.SelectStartButton.UseVisualStyleBackColor = true;
+            this.SelectStartButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.SelectStartButton.UseVisualStyleBackColor = false;
             this.SelectStartButton.CheckedChanged += new System.EventHandler(this.SelectStartButton_CheckedChanged);
             // 
             // SelectEndButton
             // 
             this.SelectEndButton.Appearance = System.Windows.Forms.Appearance.Button;
-            this.SelectEndButton.AutoSize = true;
-            this.SelectEndButton.Location = new System.Drawing.Point(713, 442);
+            this.SelectEndButton.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.SelectEndButton.FlatAppearance.CheckedBackColor = System.Drawing.Color.LightCyan;
+            this.SelectEndButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.SelectEndButton.Location = new System.Drawing.Point(707, 442);
             this.SelectEndButton.Name = "SelectEndButton";
-            this.SelectEndButton.Size = new System.Drawing.Size(69, 23);
+            this.SelectEndButton.Size = new System.Drawing.Size(76, 25);
             this.SelectEndButton.TabIndex = 99;
             this.SelectEndButton.Text = "Select End";
-            this.SelectEndButton.UseVisualStyleBackColor = true;
+            this.SelectEndButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.SelectEndButton.UseVisualStyleBackColor = false;
+            // 
+            // NoPathLabel
+            // 
+            this.NoPathLabel.AutoSize = true;
+            this.NoPathLabel.ForeColor = System.Drawing.Color.Firebrick;
+            this.NoPathLabel.Location = new System.Drawing.Point(619, 525);
+            this.NoPathLabel.Name = "NoPathLabel";
+            this.NoPathLabel.Size = new System.Drawing.Size(176, 13);
+            this.NoPathLabel.TabIndex = 100;
+            this.NoPathLabel.Text = "There is no possible path to the end";
+            this.NoPathLabel.Visible = false;
             // 
             // Form1
             // 
@@ -1161,6 +1177,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
             this.ClientSize = new System.Drawing.Size(817, 594);
+            this.Controls.Add(this.NoPathLabel);
             this.Controls.Add(this.SelectEndButton);
             this.Controls.Add(this.SelectStartButton);
             this.Controls.Add(this.ClearPathButton);
@@ -1259,7 +1276,6 @@
             this.Controls.Add(this.panel4_1);
             this.Controls.Add(this.BestFirstButton);
             this.Controls.Add(this.panel4_3);
-            this.Controls.Add(this.DrawButton);
             this.Controls.Add(this.DijkstraButton);
             this.Controls.Add(this.AStarButton);
             this.Controls.Add(this.panel3_2);
@@ -1292,7 +1308,6 @@
         private System.Windows.Forms.Panel panel1_2;
         private System.Windows.Forms.Button AStarButton;
         private System.Windows.Forms.Button DijkstraButton;
-        private System.Windows.Forms.Button DrawButton;
         private System.Windows.Forms.Button BestFirstButton;
         private System.Windows.Forms.Button BreadthFirstButton;
         private System.Windows.Forms.Timer DrawTimer;
@@ -1392,6 +1407,7 @@
         private System.Windows.Forms.Button ClearPathButton;
         private System.Windows.Forms.CheckBox SelectStartButton;
         private System.Windows.Forms.CheckBox SelectEndButton;
+        private System.Windows.Forms.Label NoPathLabel;
     }
 }
 

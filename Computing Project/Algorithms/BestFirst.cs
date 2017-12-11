@@ -12,64 +12,51 @@ namespace Computing_Project
 		public BestFirst(Grid grid)
         {
 			_grid = grid;
-        }
-        public void StartAlgorithm()
-        {
-            var path = new Stack<Node>();
-            foreach (Node node in _grid.ListOfNodes)
+			foreach(var node in _grid.ListOfNodes)
 			{
-				node.State = NodeState.Inactive;
+                if (node.State == NodeState.Wall) continue;
+                node.State = node == _grid.StartNode ? NodeState.Active : NodeState.None;
 			}
-            var current = _grid.GetStartNode();
-            current.State = NodeState.Active;
-            //While there are unexplored nodes
-            while (_grid.GetAllActive().Any())
-            {
-                path.Push(current);
+        }
+        public Tuple<Stack<Node>, Stack<Node>> FindShortestPath()
+        {
+			var prev = new Dictionary<Guid, Node>();
+			var path = new Stack<Node>();
+			var priorityList = new List<Node>();
+            priorityList.Add(_grid.StartNode);
+
+			while(priorityList.Any())
+			{
+				var current = priorityList.OrderBy(x => x.Distance).FirstOrDefault();
+				priorityList.Remove(current);
+
+				if (current == _grid.EndNode)
+				{
+					while (prev.ContainsKey(current.Id))
+					{
+						path.Push(current);
+						current = prev[current.Id];
+					}
+					break;
+				}
+
+				foreach (var neighbor in _grid.GetActiveNeighbors(current))
+				{
+					neighbor.State = NodeState.Active;
+					neighbor.Distance = FindDistance(neighbor);
+					priorityList.Add(neighbor);
+                    prev[neighbor.Id] = current;
+                }
 				current.State = NodeState.Inactive;
-                //Break if the end is found
-                if (current == _grid.GetEndNode())
-                {
-                    break;
-                }
-                //Loop through the neighbors of the current node, finding the one with the lowest distance from the end. The node with the shortest distance is the next node to be explored
-                var NextNode = _grid.GetStartNode();
-                foreach(Node node in _grid.GetActiveNeighbors(current))
-                {
-                    node.State = NodeState.Active;                    
-                    if (FindDistance(node) < FindDistance(NextNode))
-                    {
-                        NextNode = node;
-                    }
-                }
-                current = NextNode;
-            }
-			//Insert drawing
-			//Stack<Node> TempStack = null;
-			//current = _grid.GetStartNode();
-			//Node Next;
-			//while (current != _grid.GetEndNode())
-			//{
-			//	TempStack.Push(current);
-			//	Next = current;
-			//	foreach (Node node in _grid.GetAllNeighbors(current))
-			//	{
-			//		if (FindDistance(node) < FindDistance(Next))
-			//		{
-			//			Next = node;
-			//		}
-			//	}
-			//	current = Next;
-			//}
-			path.Reverse();
-			_grid.Drawer.DrawGridPath(path);
-			return;
+			}
+			var used = new Stack<Node>(prev.Select(x => x.Value).Reverse());
+			return new Tuple<Stack<Node>, Stack<Node>>(path, used);
 		}
 
         //Returns distance from a node to the end
         public int FindDistance(Node node)
         {
-            return (_grid.GetEndNode().X - node.X) + (_grid.GetEndNode().Y - node.Y);
+            return (Math.Abs(node.X - _grid.EndNode.X) + Math.Abs(node.Y - _grid.EndNode.Y));
         }
     }
 }

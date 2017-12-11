@@ -16,31 +16,30 @@ namespace Computing_Project
         public DrawHelper(Grid grid, System.Windows.Forms.Timer timer)
         {
             _grid = grid;
-            _timer = timer;            
+            _timer = timer;
         }
 
-        public void DrawGridPath(Stack<Node> stack)
+        //The drawing timer is started and any previous routes are cleared
+        public void DrawGridPath()
         {
             ClearGrid();
-            _timer.Start();
-            //while (stack.Any())
-            //{
-            //    var current = (Node)stack.Pop();
-            //    if(current == _grid.GetEndNode() || current == _grid.GetStartNode()) continue;
-            //    current.FormBox.BackColor = Color.Red;
-            //}            
+            _timer.Start();         
         }
 
+        //Sets each panel to be the colour it should be before any algorithm is run.
+        //Walls are set to grey, start nodes are green, end nodes are red, and any other node is white
         public void ClearGrid()
         {
             foreach (Node node in _grid.ListOfNodes)
             {
-                node.FormBox.BackColor = node == _grid.GetStartNode()
+                node.FormBox.BackColor = node == _grid.StartNode
                     ? Color.LightGreen
-                    : node == _grid.GetEndNode()
+                    : node == _grid.EndNode
                         ? Color.IndianRed
                         : node.State == NodeState.Wall
                             ? Color.DarkSlateGray
+                            : node.TravelCost == 2
+                                ? Color.RosyBrown
                         : Color.White;
             }
         }

@@ -7,41 +7,55 @@ using System.Threading.Tasks;
 
 namespace Computing_Project
 {
-    class BreadthFirst
-    {
-		private Grid _grid { get; set; }		
-        public BreadthFirst(Grid grid)
-        {
+	class BreadthFirst
+	{
+		private Grid _grid { get; set; }
+		public BreadthFirst(Grid grid)
+		{
 			_grid = grid;
-        }
+			foreach (var node in _grid.ListOfNodes)
+			{
+                if (node.State == NodeState.Wall) continue;
+				node.State = node == _grid.StartNode ? NodeState.Active : NodeState.None;
+			}
+		}
 
-        public void StartAlgorithm(Grid _grid)
-        {
-            var unexplored = new Queue<Node>();
-            var path = new Stack<Node>();
-            var current = _grid.GetStartNode();
-            //Add the start to the open queue
-            unexplored.Enqueue(_grid.GetStartNode());
-            //While there are unexplored nodes
-            while (unexplored.Any())
-            {                
-                current = (Node)(unexplored.Dequeue());
-                //Break if the end is found
-                current.State = NodeState.Inactive;
-                path.Push(current);
-                if (current == _grid.GetEndNode())
-                {
-                    break;
-                }                
-                //Loop through unexplored neighbors add them to the open queue so they will be explored
-                foreach (Node node in _grid.GetActiveNeighbors(current))
-                {
-                    unexplored.Enqueue(node);
-                }
-            }
-            //insert drawing
-            path.Reverse();
-            _grid.Drawer.DrawGridPath(path);
-        }
-    }
+		public Tuple<Stack<Node>, Stack<Node>> FindShortestPath()
+		{
+			var prev = new Dictionary<Guid, Node>();
+			var path = new Stack<Node>();
+			var open = new Queue<Node>();
+
+			open.Enqueue(_grid.StartNode);
+
+			while (open.Any())
+			{
+				var current = open.Dequeue();
+				current.State = NodeState.Inactive;
+
+				if (current == _grid.EndNode)
+				{
+					while (prev.ContainsKey(current.Id))
+					{
+						path.Push(current);
+						current = prev[current.Id];
+					}
+					break;
+				}
+
+				foreach (var neighbor in _grid.GetActiveNeighbors(current))
+				{
+					if (neighbor.State == NodeState.None)
+					{
+						neighbor.State = NodeState.Active;
+						open.Enqueue(neighbor);
+						prev[neighbor.Id] = current;
+					}
+				}
+			}
+
+			var used = new Stack<Node>(prev.Select(x => x.Value).Reverse());
+			return new Tuple<Stack<Node>, Stack<Node>>(path, used);
+		}
+	}
 }
