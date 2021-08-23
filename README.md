@@ -2,7 +2,7 @@
 
 This project demonstrates 4 different pathfinding algorithms on a 10 by 10 grid - A Star, Djikstra's, Best first, and Breadth first. This project was built using C#.
 
-
+![image](https://user-images.githubusercontent.com/14060766/130441623-bfd42bdd-5063-4c76-88b8-3e4990d9f7b9.png)
 
 ### Instructions
 
